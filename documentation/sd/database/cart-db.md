@@ -46,17 +46,8 @@ Note that the sources do not provide explicit information on the structure of th
 
 ## Consistency / retention
 
-<!-- SME-PLACEHOLDER:q-sd-0c5b8a847d START -->
-> ⏳ **Waiting for SME** — *Topic:* Consistency / retention
->
-> *Question:* What is the consistency model for the 'cart db' database, and how are data retention and backups handled?
-> *Best guess (low-confidence):* The data consistency policy for the cart database is not explicitly stated in the provided sources. However, it can be inferred that the account database, which stores user-specific data including cart information [S1](../architecture/overview.md), follows a state machine for "pending → paid → fulfilled" transactions [S1](../architecture/overview.md). This implies that the cart database likely uses a consistent state model to manage its data.
+For the purpose of this POC, retention is permanent.
 
-Regarding data storage duration, there is no explicit mention of how long data is stored in the cart database. However, it can be inferred from the failure modes section that orders are persisted in the `failed` state for audit purposes [S2](../architecture/data-flow-purchase.md).
-
-For disaster recovery procedures, there is no information provided on how the system handles failures or disasters. The only mention of a known gap is that the order is not refunded automatically when fulfillment fails; instead, a human must run a POST request to refund the order [S2](../architecture/data-flow-purchase.md).
-> *Asked:* on 2026-06-27 · *Status:* pending · *Question ID:* `q-sd-0c5b8a847d`
-<!-- SME-PLACEHOLDER:q-sd-0c5b8a847d END -->
 
 ## Open Questions
 
