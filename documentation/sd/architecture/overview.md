@@ -103,3 +103,20 @@ flowchart TB
 * Real auth: no OAuth, no JWT, no rate limiting.
 * Observability: no metrics, traces, or structured logs. Each service
   writes Flask's stdout to `logs/<svc>.log`.
+
+## Overview
+
+The primary objectives of the Pear Store system are to manage customer issues, process purchases, and handle fulfillment requests [S1](data-flow-pearcare-claim.md). The key performance indicators (KPIs) for the system include:
+
+* Successful issue resolution: The system should be able to categorize and prioritize customer issues based on keywords such as "lost", "stolen", "theft", etc. [S1](data-flow-pearcare-claim.md)
+* Purchase processing: The system should be able to process payments, create orders, and fulfill requests [S2](data-flow-purchase.md)
+* Fulfillment success rate: The system should be able to successfully deliver licenses and downloads to customers
+
+The core functionalities of the Pear Store system include:
+
+* Triage rules: The system uses a set of triage rules to categorize and prioritize customer issues based on keywords [S1](data-flow-pearcare-claim.md)
+* Payment processing: The system processes payments through the PAY service, which returns a payment ID and charge ID upon successful payment [S2](data-flow-purchase.md)
+* Order fulfillment: The system fulfills orders by creating entitlements for licenses and downloads [S2](data-flow-purchase.md)
+* Cart management: The system allows customers to clear their carts and creates an order in the failed state if payment is declined or fulfillment fails [S2](data-flow-purchase.md)
+
+Note that the system has a known gap where automatic refunds are not handled upon fulfillment failure, requiring human intervention.
