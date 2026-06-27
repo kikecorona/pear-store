@@ -58,13 +58,8 @@ sequenceDiagram
 
 ## What is not in this system
 
-<!-- SME-PLACEHOLDER:q-sd-ce4624896a START -->
-> ⏳ **Waiting for SME** — *Topic:* What is not in this system
->
-> *Question:* What non-goals or out-of-scope work are explicitly excluded from this purchase data flow?
-> *Best guess (low-confidence):* (none)
-> *Asked:* on 2026-06-27 · *Status:* pending · *Question ID:* `q-sd-ce4624896a`
-<!-- SME-PLACEHOLDER:q-sd-ce4624896a END -->
+None.
+
 
 ## Why this shape
 
