@@ -58,3 +58,14 @@ time.
 
 This narrow integration surface is the point — PearCare can change its
 internals freely as long as those three endpoint contracts hold.
+
+## Open Questions
+
+The unresolved issues or areas that require SME input for the PearCare integration with the storefront include:
+
+* Clarifying the consistency model and specific data stored in the cart database [S1](../database/catalog-db.md)
+* Understanding the data stored in the account database, including cart information and user-specific data [S7](../database/account-db.md), [S12](../database/review-db.md)
+* Determining the exact duration of data retention for orders in the failed state [S6](../architecture/data-flow-purchase.md)
+* Resolving the issue of automatic refunds not being handled upon fulfillment failure [S10](../architecture/overview.md)
+
+Additionally, further detail is needed regarding the specific data stored in the account database for each user [S12](../database/review-db.md).
