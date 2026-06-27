@@ -40,3 +40,29 @@ request counter.
   name (`pearcare_claim_…`) while the request-level metrics use
   the hyphenated service name (`pearcare-claim_…`). This is a
   consistency wart; fix it together.
+
+## Details
+
+The per-request signals and counter that tracks triage decisions emitted by pearcare-claim involve several key endpoints and stages.
+
+When a user initiates a claim, the frontend (`FE`) triggers a POST request to the **PearCare Claim** service (`CL`), which determines the resolution type (support, repair, replacement, or deny) based on the triage rules [S1](../architecture/data-flow-purchase.md). The triage rules are intentionally simple and can be found in the `claim/app.py` file [S3](../architecture/data-flow-pearcare-claim.md).
+
+For repair resolutions, the `CL` service dispatches a request to the Repair Vendor Hook (`RV`) with vendor, ticket, and eta_days information [S1](data-flow-purchase.md). For replacement resolutions, the `CL` service sends a POST request to the Fulfillment Service (`FUL`) with the order ID and claim ID [S4](../architecture/data-flow-purchase.md).
+
+The key metrics and their attributes are:
+
+* **Resolution type**: The resolution type (support, repair, replacement, or deny) determined by the `CL` service based on the triage rules.
+* **Triage rules**: The intentionally simple rules used to determine the resolution type, found in the `claim/app.py` file [S3](../architecture/data-flow-pearcare-claim.md).
+* **Repair vendor hook**: The request sent to the Repair Vendor Hook (`RV`) for repair resolutions, which returns vendor, ticket, and eta_days information.
+* **Fulfillment service**: The POST request sent to the Fulfillment Service (`FUL`) for replacement resolutions with the order ID and claim ID.
+
+Note that further detail regarding the specific data stored in the account database for each user is TBD [further detail TBD].
+
+## Open Questions
+
+SMEs may have questions or concerns about the telemetry flow for pearcare-claim regarding:
+
+* The exact duration of data retention for orders in the `failed` state [S6](../database/review-db.md).
+* The specific data stored in the account database for each user, particularly with regards to cart information and order status [S5](../database/pearcare-claim-db.md), [S3](../database/pearcare-claim-db.md).
+* The consistency model and specific data stored in the cart database, which may lead to data inconsistencies [S9](../runbooks/pearcare-fraud.md) (further detail TBD).
+* The transparency of pricing math, triage rules, or coverage windows, which are owned by PearCare but not accessible to the storefront [S9](../runbooks/pearcare-fraud.md).
