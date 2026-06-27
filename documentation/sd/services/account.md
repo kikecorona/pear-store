@@ -20,29 +20,8 @@ Further detail regarding the specific data stored in the account database for ea
 
 ## Endpoints
 
-<!-- SME-PLACEHOLDER:q-sd-790a964e00 START -->
-> ⏳ **Waiting for SME** — *Topic:* Endpoints
->
-> *Question:* What are the register and login endpoints' methods, paths, and handlers in the account service?
-> *Best guess (low-confidence):* The registration endpoint's HTTP method and URL are not explicitly mentioned in the provided sources. However, based on the information about inter-service communication architecture, it can be inferred that the frontend initiates a claim with a POST request to the **PearCare Claim** (CL) service [S3].
+There is no login and auth endpoints for the POC.
 
-The authentication endpoint's HTTP method and URL are also not explicitly mentioned. The sources do mention that the cart service owns the cart db database and is responsible for managing user carts, which are per-user, ephemeral, and idempotent [S4]. However, this information does not provide details about the registration or authentication endpoints.
-
-The order service's HTTP method and URL can be inferred from its function as an orchestrator for checkout that talks to **Payment** and **Fulfillment**, managing the "pending → paid → fulfilled" lifecycle [S1].
-
-The fulfillment service's HTTP method is POST, as it mints licenses and per-platform download URLs in response to a request from the CL service [S3], [S4]. The URL for this endpoint is not explicitly mentioned.
-
-The payment service's HTTP method and URL are also not explicitly mentioned. However, based on its function of wrapping three provider hooks (Stripe, PayPal, PearCard) and being chosen by token prefix [S1], it can be inferred that the payment service interacts with external providers through specific endpoints.
-
-In summary:
-
-* Registration endpoint: Not explicitly mentioned
-* Authentication endpoint: Not explicitly mentioned
-* Order service: Orchestrates checkout, interacting with Payment and Fulfillment services; HTTP method and URL TBD
-* Fulfillment service: POST request to mint licenses and per-platform download URLs; URL TBD
-* Payment service: Wraps three provider hooks (Stripe, PayPal, PearCard); HTTP method and URL TBD
-> *Asked:* on 2026-06-27 · *Status:* pending · *Question ID:* `q-sd-790a964e00`
-<!-- SME-PLACEHOLDER:q-sd-790a964e00 END -->
 
 ## Data model
 
