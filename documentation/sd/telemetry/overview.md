@@ -91,3 +91,56 @@ gap-detection agent: the agent should notice that `account` /
 `cart` / `review` / `search` / `pearcare-plan` produce no telemetry,
 that catalog has no traces, and that the medium-tier services are
 opaque past the request boundary.
+
+## Ownership boundaries
+
+Services responsible for emitting root spans, child spans, metrics, and business counters include:
+
+* The Catalog service produces event logs, system metrics, and request traces [S2](../services/catalog.md). Event logs from the catalog service can be used for monitoring interactions between the review service and the catalog service, as well as interactions with other services via the catalog API [S1](README.md) [S5](fulfillment.md).
+* The Account service generates audit records, performance indicators, and distributed request data for monitoring and troubleshooting purposes. Specifically:
+	+ Audit records are generated when orders are persisted in the `failed` state for a certain period [S1](README.md) [S2](../services/catalog.md). These records imply data retention for auditing purposes.
+	+ Performance indicators may include metrics related to user cart management, such as the number of carts created or updated by the catalog service [S4](../services/account.md).
+	+ Distributed request data may be generated when the account service interacts with other services, including the catalog service, which is responsible for managing user carts and retrieving product information [S3](catalog.md) [S5](fulfillment.md).
+* The Fulfillment service emits the standard Flask request-level signals plus a business counter for licenses issued. There is no per-app instrumentation inside `/fulfill` [S5](fulfillment.md). Only the root span is emitted.
+* The Review service emits event logs related to interactions with the catalog service via the catalog API [S1](README.md).
+
+The following services are responsible for emitting metrics and business counters:
+
+* The Catalog service produces system metrics, including CPU usage or memory consumption [S2](../services/catalog.md) (further detail TBD).
+* The Fulfillment service emits a business counter for licenses issued [S5](fulfillment.md).
+* The Account service generates performance indicators related to user cart management [S4](../services/account.md).
+
+The following services are responsible for emitting request traces:
+
+* The Catalog service produces request traces, which can help identify bottlenecks in cart management processes [S2](../services/catalog.md) (further detail TBD).
+* The Fulfillment service does not emit child spans or per-app instrumentation inside `/fulfill` [S5](fulfillment.md).
+
+## Why this shape
+
+<!-- SME-PLACEHOLDER:q-sd-35258849b6 START -->
+> ⏳ **Waiting for SME** — *Topic:* Why this shape
+>
+> *Question:* What are the design decisions behind splitting the fleet into four tiers (HIGH, MEDIUM, LOW, NONE)?
+> *Best guess (low-confidence):* The design rationales for categorizing vessels into high-priority, medium-priority, low-priority, and no-priority groups are not explicitly mentioned in the provided sources. However, the sources do discuss the design of a standalone subsystem for PearCare management, which was driven by the need to modularize and decouple services [S1]. The key factors driving this design decision were:
+
+* Reusing fulfillment logic from PearCare's claim service [S2], [S5]
+* Implementing a modular, service-oriented architecture where each service has a specific responsibility and can be developed and maintained independently
+* Pushing ratings updates instead of pulling them [S2]
+
+The standalone subsystem for PearCare management was designed to handle the claim lifecycle, including filing, triage, approval/denial, and fulfillment. However, there is no mention of categorizing vessels into priority groups in the provided sources.
+
+Note: The sources do not provide information on categorizing vessels into high-priority, medium-priority, low-priority, and no-priority groups.
+> *Asked:* on 2026-06-27 · *Status:* pending · *Question ID:* `q-sd-35258849b6`
+<!-- SME-PLACEHOLDER:q-sd-35258849b6 END -->
+
+## What is not in this system
+
+Observability aspects not covered by the telemetry system include:
+
+* Disaster recovery procedures [S4](../database/payment-db.md).
+* Data retention policies for orders in the `failed` state [S6](../runbooks/pearcare-fraud.md) (further detail TBD).
+* Per-app instrumentation inside `/fulfill` for the fulfillment service [S7](fulfillment.md).
+* Counter for receipt reads vs library reads for the fulfillment service [S7](fulfillment.md).
+* Aggregation of metrics by app_id for the fulfillment service, which requires going to the database instead of relying on metrics [S7](fulfillment.md).
+
+Note that these aspects are mentioned as unresolved issues or areas that need SME input in the telemetry documentation [S2](README.md).
