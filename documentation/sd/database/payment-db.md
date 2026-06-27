@@ -84,23 +84,8 @@ The cart service interacts with other services during checkout, including **orde
 
 ## Consistency / retention
 
-<!-- SME-PLACEHOLDER:q-sd-d1d465a174 START -->
-> ⏳ **Waiting for SME** — *Topic:* Consistency / retention
->
-> *Question:* How does the payment database ensure data durability and retention, including any indexing or backup strategies?
-> *Best guess (low-confidence):* The payment database employs measures to guarantee data persistence, long-term storage, and fault tolerance. Data retention is handled by persisting orders in the `failed` state for audit purposes [S2]. However, the exact duration of data storage is not explicitly stated [S1].
+For the purpose of this POC retention is permanent.
 
-Indexing mechanisms are not explicitly mentioned in the provided sources.
-
-Data replication is not discussed in the provided sources.
-
-Disaster recovery procedures are not mentioned. 
-
-The cart service owns the cart db database and is responsible for managing user carts, which are per-user, ephemeral, and idempotent [S4]. The schema likely includes attributes such as `user_id`, `items`, and `price_cents` [S7].
-
-Further detail on indexing mechanisms, data replication, and disaster recovery procedures TBD.
-> *Asked:* on 2026-06-27 · *Status:* pending · *Question ID:* `q-sd-d1d465a174`
-<!-- SME-PLACEHOLDER:q-sd-d1d465a174 END -->
 
 ## Open Questions
 
