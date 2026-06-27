@@ -44,3 +44,13 @@ This is intentionally simple — real eligibility logic should live here.
 | "broken", "damage", "cracked", "crash"      | any                | repair        |
 | "question", "how do", "help", "setup"       | any                | support       |
 | anything else                               | any                | support       |
+
+## Triage rules
+
+<!-- SME-PLACEHOLDER:q-sd-c5e8c69c55 START -->
+> ⏳ **Waiting for SME** — *Topic:* Triage rules
+>
+> *Question:* What are the eligibility criteria for each issue keyword, and how do they determine the required tier?
+> *Best guess (low-confidence):* (none)
+> *Asked:* on 2026-06-27 · *Status:* pending · *Question ID:* `q-sd-c5e8c69c55`
+<!-- SME-PLACEHOLDER:q-sd-c5e8c69c55 END -->
