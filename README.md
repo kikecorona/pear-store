@@ -15,7 +15,7 @@ so the agent has gaps to find:
 | Runbooks      | `documentation/sd/runbooks/` | `pearcare-fraud.md` is a placeholder; `incident-response.md` is one-liner thin      |
 | Business docs | `documentation/bp/business-cases/` | refunds / piracy / cancellations are deliberately under-developed                 |
 
-### Telemetry coverage tiers
+## Telemetry coverage tiers
 
 Five backend services are wired to a small dependency-free OpenTelemetry
 shim (`implementation/shared/otel.py`) that emits
